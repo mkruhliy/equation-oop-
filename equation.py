@@ -1,8 +1,12 @@
 class Polynomial:
+    """Polinomials main features"""
+
     def __init__(self, lst) -> None:
         self.__lst = lst
+
     @property
     def lst(self):
+        """checking for '0' in the highest degrees"""
         l1st = list(self.__lst).copy()
         if len(l1st) == 0:
             return l1st
@@ -13,37 +17,57 @@ class Polynomial:
                     return l1st
             else:
                 return l1st
+
     def __str__(self) -> str:
+        """representation of Polynomial"""
         return "Polynomial(coeffs={})".format(self.lst)
+    
     def degree(self):
+        """degree of Polynomial"""
         return len(self.lst) - 1
+
     def coeff(self, i):
+        """coefficient in the paricular degree"""
         return self.lst[len(self.lst)-i-1]
+
     def evalAt(self, x):
+        """Polynomial value in the particular point"""
         res = 0
         for i in range(len(self.lst)):
             res += self.lst[i]*(x**(len(self.lst)-i-1))
         return res
-    def __eq__(self, obj: object) -> bool:
+
+    def __eq__(self, obj):
+        """checking if Polinomials equal"""
         if str(self) == str(obj):
             return True
         elif len(self.lst)==0 and obj.lst[0]==0:
             return True
         elif type(self.lst)==list and len(self.lst)==1 and self.lst[0]==obj:
             return True
-    def __ne__(self, obj: object) -> bool:
+
+    def __ne__(self, obj):
+        """checking if Polinomials do not equal"""
         if str(self) != str(obj):
             return True
-    def __hash__(self) -> int:
+
+    def __hash__(self):
+        """hashing"""
         return hash(tuple(self.lst))
+
     def scaled(self, tm):
+        """scaling Polinomial"""
         return Polynomial([x*tm for x in self.lst])
+
     def derivative(self):
+        """Polinomial deriative"""
         res = []
         for i in range(len(self.lst[:-1])):
             res.append(self.lst[i]*(len(self.lst)-1-i))
         return Polynomial(res)
-    def addPolynomial(self, obj):    # зроби перевірку на який лист більший
+
+    def addPolynomial(self, obj):
+        """adding two Polinomials"""
         if type(obj) == str:
             return None
         res = []
@@ -54,6 +78,7 @@ class Polynomial:
         return Polynomial(res)
     
     def multiplyPolynomial(self, obj):
+        """multiplying two Polinomials"""
         prod = [0] * (len(self.lst) + len(obj.lst) - 1)
         for i in range(len(self.lst)):
             for j in range(len(obj.lst)):
@@ -62,29 +87,38 @@ class Polynomial:
 
 
 class Quadratic(Polynomial):
+    """Quadratic Equation main features"""
+
     def __init__(self, lst) -> None:
         super().__init__(lst)
         if len(self.lst) != 3:
             raise Exception
+
     def __str__(self) -> str:
+        """Quadratic Equation representation"""
         return "Quadratic(a={}, b={}, c={})".format(self.lst[0], self.lst[1], self.lst[2])
+
     def discriminant(self):
+        """Quadratic Equation discriminant"""
         return self.lst[1]**2 - 4*self.lst[0]*self.lst[2]
+
     def numberOfRealRoots(self):
+        """Quadratic Equation number of roots"""
         if self.discriminant() < 0:
             return 0
         elif self.discriminant() == 0:
             return 1
         else:
             return 2
+
     def getRealRoots(self):
+        """Quadratic Equation roots"""
         if self.discriminant() < 0:
             return [ ]
         elif self.discriminant() == 0:
             return [-(self.lst[1])/2*self.lst[0]]
         else:
             return [(-(self.lst[1])-(self.discriminant())**(1/2))/2*self.lst[0], (-(self.lst[1])+(self.discriminant())**(1/2))/2*self.lst[0]]
-    
 
 
 def testPolynomialBasics():
@@ -193,7 +227,6 @@ def testPolynomialClass():
     testPolynomialMath()
     print('Passed!')
 
-
 def testQuadraticClass():
     import math
     print("Testing Quadratic class...", end="")
@@ -251,5 +284,5 @@ def testEquationClasses():
     testPolynomialClass()
     testQuadraticClass()
 
-
-testEquationClasses()
+if __name__ == "__main__":
+    testEquationClasses()
