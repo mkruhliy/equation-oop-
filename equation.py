@@ -1,3 +1,7 @@
+"""
+Algebraic Equations
+"""
+
 class Polynomial:
     """Polinomials main features"""
 
@@ -21,7 +25,7 @@ class Polynomial:
     def __str__(self) -> str:
         """representation of Polynomial"""
         return "Polynomial(coeffs={})".format(self.lst)
-    
+
     def degree(self):
         """degree of Polynomial"""
         return len(self.lst) - 1
@@ -30,11 +34,11 @@ class Polynomial:
         """coefficient in the paricular degree"""
         return self.lst[len(self.lst)-i-1]
 
-    def evalAt(self, x):
+    def evalAt(self, point):
         """Polynomial value in the particular point"""
         res = 0
         for i in range(len(self.lst)):
-            res += self.lst[i]*(x**(len(self.lst)-i-1))
+            res += self.lst[i]*(point**(len(self.lst)-i-1))
         return res
 
     def __eq__(self, obj):
@@ -55,9 +59,9 @@ class Polynomial:
         """hashing"""
         return hash(tuple(self.lst))
 
-    def scaled(self, tm):
+    def scaled(self, num):
         """scaling Polinomial"""
-        return Polynomial([x*tm for x in self.lst])
+        return Polynomial([x*num for x in self.lst])
 
     def derivative(self):
         """Polinomial deriative"""
@@ -76,7 +80,7 @@ class Polynomial:
         res.extend(self.lst[:-(len(obj.lst))])
         res.reverse()
         return Polynomial(res)
-    
+
     def multiplyPolynomial(self, obj):
         """multiplying two Polinomials"""
         prod = [0] * (len(self.lst) + len(obj.lst) - 1)
@@ -118,7 +122,8 @@ class Quadratic(Polynomial):
         elif self.discriminant() == 0:
             return [-(self.lst[1])/2*self.lst[0]]
         else:
-            return [(-(self.lst[1])-(self.discriminant())**(1/2))/2*self.lst[0], (-(self.lst[1])+(self.discriminant())**(1/2))/2*self.lst[0]]
+            return [(-(self.lst[1])-(self.discriminant())**(1/2))/2*self.lst[0], \
+                (-(self.lst[1])+(self.discriminant())**(1/2))/2*self.lst[0]]
 
 
 def testPolynomialBasics():
